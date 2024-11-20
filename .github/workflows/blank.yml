@@ -11,8 +11,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
       
+      - name: Runner
+        shell: |
+          docker compose up -d
+
+          docker exec gitlab-runner-container \
+          gitlab-runner register \
+          --non-interactive \
+          --url https://{{ secrets.GL_RUNNER_URL }} \
+          --registration-token {{ secrets.GL_RUNNER_TOKEN }} \
+          --executor docker \
+          --description "Sample Runner 1" \
+          --docker-image "docker:stable" \
+          --docker-volumes /var/run/docker.sock:/var/run/docker.sock
