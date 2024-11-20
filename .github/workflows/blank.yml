@@ -24,8 +24,8 @@ jobs:
           docker exec gitlab-runner-container \
           gitlab-runner register \
           --non-interactive \
-          --url https://{{ secrets.GL_RUNNER_URL }} \
-          --registration-token {{ secrets.GL_RUNNER_TOKEN }} \
+          --url https://${{ secrets.GL_RUNNER_URL }} \
+          --registration-token ${{ secrets.GL_RUNNER_TOKEN }} \
           --executor docker \
           --description "Sample Runner 1" \
           --docker-image "docker:stable" \
